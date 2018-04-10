@@ -44,6 +44,11 @@ extension CGPoint {
 class GameScene: SKScene {
     //declare our player and use their image name to make the sprite
     let player = SKSpriteNode(imageNamed: "tank")
+    var isMoving: Bool = false
+    var moveSpeed: CGFloat = 1
+    
+    var initalTouch: CGPoint?
+    var movementDirection: CGPoint?
     
     
     override func didMove(to view: SKView) {
@@ -57,13 +62,36 @@ class GameScene: SKScene {
         addChild(player)
     }
     
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //Choose a touch to work with
-        guard let touch = touches.first else {
-            return
+    func touchDown(atPoint pos : CGPoint) {
+        // Begin movement
+        print("touched down")
+        
+        let touchLocation = pos
+        
+        
+        // Move the tank
+        if touchLocation.x < size.width * 0.50 {
+            isMoving = true
+            initalTouch = pos
+            movementDirection = CGPoint(x: 0, y: 0)
         }
-        let touchLocation = touch.location(in: self)
+    }
+    
+    func touchMoved(toPoint pos : CGPoint) {
+        // Change movement direction
+        
+        let touchLocation = pos
+        
+        if touchLocation.x < size.width * 0.50 {
+            let offset = touchLocation - initalTouch!
+            movementDirection = offset.normalized()
+        }
+    }
+    
+    func touchUp(atPoint pos : CGPoint) {
+        print("touched up")
+        
+        let touchLocation = pos
         
         //If its on the right side of the screen, shoot a projectile.
         //if its on the left, move the tank
@@ -93,117 +121,39 @@ class GameScene: SKScene {
             let actionMove = SKAction.move(to: trueDestination, duration: 2.0)
             let actionMoveDone = SKAction.removeFromParent()
             projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
-        }
-        //move our tank
-        else {
-            //Get a reference to the velocity of the pan from our finger
-            let pancake = UIPanGestureRecognizer()
-            let velocity = pancake.velocity(in: self.view)
-            
-            
-            //get the x and y components
-            let x = velocity.x;
-            let y = velocity.y;
-            
-            //help with bullet rotation, obv this has to be reorganized a tad. will get to it
-//            //and find the appropriate direction
-//            var angle = atan2(y,x) * 180.0 / 3.14159;
-//            if (angle < 0) {
-//                 angle = angle + 360.0;
-//            }
-                                            //x * 10
-            player.position.x = player.position.x + 10
-            player.position.y = player.position.y - 10
-            
+        } else {
+            // Cancel movement
+            isMoving = false
         }
         
-      
+
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    }
+    
+    
+    override func update(_ currentTime: TimeInterval) {
+        // Called before each frame is rendered
+        if(isMoving) {
+            self.player.position =  self.player.position + (movementDirection! * moveSpeed)
+        }
     }
     
     
     
+    
 }
-
-
-
-
-
-
-//Default
-
-//private var label : SKLabelNode?
-//private var spinnyNode : SKShapeNode?
-//
-//override func didMove(to view: SKView) {
-//
-//    // Get label node from scene and store it for use later
-//    self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-//    if let label = self.label {
-//        label.alpha = 0.0
-//        label.run(SKAction.fadeIn(withDuration: 2.0))
-//    }
-//
-//    // Create shape node to use during mouse interaction
-//    let w = (self.size.width + self.size.height) * 0.05
-//    self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-//
-//    if let spinnyNode = self.spinnyNode {
-//        spinnyNode.lineWidth = 2.5
-//
-//        spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-//        spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-//                                          SKAction.fadeOut(withDuration: 0.5),
-//                                          SKAction.removeFromParent()]))
-//    }
-//}
-//
-//
-//func touchDown(atPoint pos : CGPoint) {
-//    if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//        n.position = pos
-//        n.strokeColor = SKColor.green
-//        self.addChild(n)
-//    }
-//}
-//
-//func touchMoved(toPoint pos : CGPoint) {
-//    if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//        n.position = pos
-//        n.strokeColor = SKColor.blue
-//        self.addChild(n)
-//    }
-//}
-//
-//func touchUp(atPoint pos : CGPoint) {
-//    if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-//        n.position = pos
-//        n.strokeColor = SKColor.red
-//        self.addChild(n)
-//    }
-//}
-//
-//override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//    if let label = self.label {
-//        label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-//    }
-//
-//    for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-//}
-//
-//override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//    for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-//}
-//
-//override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//    for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-//}
-//
-//override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//    for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-//}
-//
-//
-//override func update(_ currentTime: TimeInterval) {
-//    // Called before each frame is rendered
-//}
-
