@@ -45,7 +45,7 @@ class GameScene: SKScene {
     //declare our player and use their image name to make the sprite
     let player = SKSpriteNode(imageNamed: "tank")
     var isMoving: Bool = false
-    var moveSpeed: CGFloat = 1
+    var moveSpeed: CGFloat = 3
     
     var initalTouch: CGPoint?
     var movementDirection: CGPoint?
@@ -84,7 +84,23 @@ class GameScene: SKScene {
         
         if touchLocation.x < size.width * 0.50 {
             let offset = touchLocation - initalTouch!
+            
+            var x = movementDirection!.x
+            var y = movementDirection!.y
+            
+            var angle = acos(x / (sqrt((x * x) + (y * y))))
+            
+            print("Angle: \(angle)")
+            
             movementDirection = offset.normalized()
+            
+           // var angle = atan2(movementDirection!.y,movementDirection!.x) * 180.0 / 3.14159;
+//            if (angle < 0) {
+//                angle = angle + 360.0;
+//            }
+//
+            
+            self.player.zRotation = (angle)
         }
     }
     
