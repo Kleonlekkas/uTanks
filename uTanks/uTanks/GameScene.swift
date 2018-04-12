@@ -48,7 +48,8 @@ class GameScene: SKScene {
     var moveSpeed: CGFloat = 3
     
     var initalTouch: CGPoint?
-    var movementDirection: CGPoint = CGPoint(x: 0, y: 0)
+    //Start off facing the right. This depends on the player though.
+    var movementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var facingAngle: CGFloat = 0
     
     
@@ -115,14 +116,11 @@ class GameScene: SKScene {
             projectile.position = player.position
             projectile.setScale(CGFloat(0.1))
             
-            //determine offset of location to projectile
-            let offset = touchLocation - projectile.position
             
             //add the projectile to the scene
             addChild(projectile)
             
-            //get the direction to shoot in
-            let direction = offset.normalized()
+            projectile.zRotation = (facingAngle)
             
             //shoot until its definitely off screen
             let amountShot = movementDirection * 1000
