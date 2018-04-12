@@ -48,7 +48,8 @@ class GameScene: SKScene {
     var moveSpeed: CGFloat = 3
     
     var initalTouch: CGPoint?
-    var movementDirection: CGPoint?
+    var movementDirection: CGPoint = CGPoint(x: 0, y: 0)
+    var facingAngle: CGFloat = 0
     
     
     override func didMove(to view: SKView) {
@@ -85,22 +86,18 @@ class GameScene: SKScene {
         if touchLocation.x < size.width * 0.50 {
             let offset = touchLocation - initalTouch!
             
-            var x = movementDirection!.x
-            var y = movementDirection!.y
+            let x = movementDirection.x
+            let y = movementDirection.y
             
-            var angle = acos(x / (sqrt((x * x) + (y * y))))
+            facingAngle = acos(x / (sqrt((x * x) + (y * y))))
             
-            print("Angle: \(angle)")
+            if y < 0 {
+                facingAngle = facingAngle * -1
+            }
             
             movementDirection = offset.normalized()
             
-           // var angle = atan2(movementDirection!.y,movementDirection!.x) * 180.0 / 3.14159;
-//            if (angle < 0) {
-//                angle = angle + 360.0;
-//            }
-//
-            
-            self.player.zRotation = (angle)
+            self.player.zRotation = (facingAngle)
         }
     }
     
@@ -128,7 +125,7 @@ class GameScene: SKScene {
             let direction = offset.normalized()
             
             //shoot until its definitely off screen
-            let amountShot = direction * 1000
+            let amountShot = movementDirection * 1000
             
             //add the amount shot to the current position
             let trueDestination = amountShot + projectile.position
@@ -165,7 +162,7 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if(isMoving) {
-            self.player.position =  self.player.position + (movementDirection! * moveSpeed)
+            self.player.position =  self.player.position + (movementDirection * moveSpeed)
         }
     }
     
