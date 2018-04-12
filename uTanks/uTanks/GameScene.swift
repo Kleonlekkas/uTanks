@@ -46,6 +46,7 @@ class GameScene: SKScene {
     let player = SKSpriteNode(imageNamed: "tank")
     var isMoving: Bool = false
     var moveSpeed: CGFloat = 3
+    var canFire: Bool = true
     
     var initalTouch: CGPoint?
     //Start off facing the right. This depends on the player though.
@@ -110,7 +111,7 @@ class GameScene: SKScene {
         //If its on the right side of the screen, shoot a projectile.
         //if its on the left, move the tank
         
-        if touchLocation.x > size.width * 0.50 {
+        if touchLocation.x > size.width * 0.50  && canFire {
             //get initial location of projectile
             let projectile = SKSpriteNode(imageNamed: "bullet")
             projectile.position = player.position
@@ -132,6 +133,11 @@ class GameScene: SKScene {
             let actionMove = SKAction.move(to: trueDestination, duration: 2.0)
             let actionMoveDone = SKAction.removeFromParent()
             projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
+            // withTimeInterval is how often we want the players to shoot in seconds
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {
+                _ in
+                self.canFire = true
+            } 
         } else {
             // Cancel movement
             isMoving = false
