@@ -17,6 +17,7 @@
 		3F4D506A207C193000E28253 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4D5068207C193000E28253 /* Main.storyboard */; };
 		3F4D506C207C193000E28253 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F4D506B207C193000E28253 /* Assets.xcassets */; };
 		3F4D506F207C193000E28253 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4D506D207C193000E28253 /* LaunchScreen.storyboard */; };
+		8A7C4CF274A7676AEC91C305 /* Pods_uTanks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26AB90476AA7FD937F3B973 /* Pods_uTanks.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,9 @@
 		3F4D506B207C193000E28253 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F4D506E207C193000E28253 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3F4D5070207C193000E28253 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66A0055AC10CDC22E5BADC3E /* Pods-uTanks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uTanks.release.xcconfig"; path = "Pods/Target Support Files/Pods-uTanks/Pods-uTanks.release.xcconfig"; sourceTree = "<group>"; };
+		D34240B25504AA3EC82459CA /* Pods-uTanks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uTanks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uTanks/Pods-uTanks.debug.xcconfig"; sourceTree = "<group>"; };
+		F26AB90476AA7FD937F3B973 /* Pods_uTanks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uTanks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A7C4CF274A7676AEC91C305 /* Pods_uTanks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +63,8 @@
 			children = (
 				3F4D505D207C193000E28253 /* uTanks */,
 				3F4D505C207C193000E28253 /* Products */,
+				D567EC08F1F8E60D46E34F5F /* Pods */,
+				EEA891ED53E9D410B1678783 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +94,23 @@
 			path = uTanks;
 			sourceTree = "<group>";
 		};
+		D567EC08F1F8E60D46E34F5F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D34240B25504AA3EC82459CA /* Pods-uTanks.debug.xcconfig */,
+				66A0055AC10CDC22E5BADC3E /* Pods-uTanks.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		EEA891ED53E9D410B1678783 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F26AB90476AA7FD937F3B973 /* Pods_uTanks.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -94,9 +118,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F4D5073207C193000E28253 /* Build configuration list for PBXNativeTarget "uTanks" */;
 			buildPhases = (
+				31383F39717C862B4C949150 /* [CP] Check Pods Manifest.lock */,
 				3F4D5057207C192F00E28253 /* Sources */,
 				3F4D5058207C192F00E28253 /* Frameworks */,
 				3F4D5059207C192F00E28253 /* Resources */,
+				32918DFD7EE3DDFC1948D866 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -155,6 +181,47 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31383F39717C862B4C949150 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-uTanks-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		32918DFD7EE3DDFC1948D866 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-uTanks/Pods-uTanks-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-uTanks/Pods-uTanks-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3F4D5057207C192F00E28253 /* Sources */ = {
@@ -300,13 +367,14 @@
 		};
 		3F4D5074207C193000E28253 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D34240B25504AA3EC82459CA /* Pods-uTanks.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3DSX6QEL6E;
+				DEVELOPMENT_TEAM = 9DMTK5GKBY;
 				INFOPLIST_FILE = uTanks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lekkas.uTanks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.IrvinDo.uTanks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -315,13 +383,14 @@
 		};
 		3F4D5075207C193000E28253 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66A0055AC10CDC22E5BADC3E /* Pods-uTanks.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3DSX6QEL6E;
+				DEVELOPMENT_TEAM = 9DMTK5GKBY;
 				INFOPLIST_FILE = uTanks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lekkas.uTanks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.IrvinDo.uTanks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

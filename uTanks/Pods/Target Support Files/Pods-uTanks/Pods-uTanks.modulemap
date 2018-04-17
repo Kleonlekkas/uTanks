@@ -1,0 +1,6 @@
+framework module Pods_uTanks {
+  umbrella header "Pods-uTanks-umbrella.h"
+
+  export *
+  module * { export * }
+}

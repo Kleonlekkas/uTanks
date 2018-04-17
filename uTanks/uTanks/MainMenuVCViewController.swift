@@ -6,7 +6,10 @@
 //  Copyright © 2018 Student. All rights reserved.
 //
 
+import Foundation
 import UIKit
+import Starscream
+import SocketIO
 
 class MainMenuVCViewController: UIViewController {
 
@@ -15,6 +18,7 @@ class MainMenuVCViewController: UIViewController {
     //pressing again removes player from queue
     var isQueued: Bool = false
     @IBOutlet weak var matchmakingLabel: UILabel!
+    @IBOutlet weak var playerCountLabel: UILabel!
     @IBAction func queueButtonPressed(_ sender: Any) {
         isQueued = !isQueued
         if (isQueued) {
@@ -24,10 +28,26 @@ class MainMenuVCViewController: UIViewController {
         }
     }
     
+    let manager = SocketManager(socketURL: URL(string: "http://74.69.67.86:55555")!, config: [.log(true), .compress])
+    var socket: SocketIOClient!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
        print("view loaded")
+        
+        socket = manager.defaultSocket
+        socket.on(clientEvent: .connect) { data, ack in
+            print("Socket connected")
+            self.socket.emit("getPlayerCount")
+        }
+        
+        socket.on("recievePlayerCount") { data, ack in
+            print("Players: \(data)")
+            self.playerCountLabel.text = "Player Count: \(data[0])"
+        }
+        
+        socket.connect()
     }
 
 

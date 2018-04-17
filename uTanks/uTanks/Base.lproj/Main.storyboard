@@ -57,15 +57,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player Count: Unknown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4oL-aY-pe1">
+                                <rect key="frame" x="98" y="630" width="179" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="4oL-aY-pe1" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="98" id="0ID-gm-Qhx"/>
                             <constraint firstItem="k2U-Gg-5u4" firstAttribute="top" secondItem="Fq5-Ry-LRQ" secondAttribute="bottom" constant="8" id="2FL-lR-nqE"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="8ps-nV-tYR" secondAttribute="trailing" constant="16" id="6kI-FF-pE8"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="bottom" secondItem="BF7-UY-UAt" secondAttribute="bottom" constant="16" id="Dgj-H4-hte"/>
                             <constraint firstItem="Fq5-Ry-LRQ" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="K1q-W8-FHF"/>
                             <constraint firstItem="BF7-UY-UAt" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="MR1-na-Hkh"/>
                             <constraint firstItem="k2U-Gg-5u4" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="VD2-av-Gjn"/>
+                            <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="4oL-aY-pe1" secondAttribute="trailing" constant="98" id="YXh-eY-Ev9"/>
                             <constraint firstItem="k2U-Gg-5u4" firstAttribute="centerY" secondItem="uuL-ns-dPa" secondAttribute="centerY" id="b6p-QJ-TUT"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="k2U-Gg-5u4" secondAttribute="trailing" constant="16" id="dKl-0r-6th"/>
                             <constraint firstItem="LYK-6l-t8x" firstAttribute="top" secondItem="uuL-ns-dPa" secondAttribute="top" constant="32" id="gwq-pW-cr7"/>
@@ -74,12 +82,14 @@
                             <constraint firstItem="8ps-nV-tYR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nh3-gi-G6M" secondAttribute="leading" constant="20" symbolic="YES" id="nOl-7B-HR2"/>
                             <constraint firstItem="Yld-AJ-FPN" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="oli-6a-dTh"/>
                             <constraint firstItem="BF7-UY-UAt" firstAttribute="top" secondItem="Yld-AJ-FPN" secondAttribute="bottom" constant="16" id="qrO-LX-Ww1"/>
+                            <constraint firstItem="uuL-ns-dPa" firstAttribute="bottom" secondItem="4oL-aY-pe1" secondAttribute="bottom" constant="16" id="tvv-Vl-Yza"/>
                             <constraint firstItem="LYK-6l-t8x" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="zzi-wO-XAy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uuL-ns-dPa"/>
                     </view>
                     <connections>
                         <outlet property="matchmakingLabel" destination="BF7-UY-UAt" id="7JZ-r0-Pw0"/>
+                        <outlet property="playerCountLabel" destination="4oL-aY-pe1" id="Nd6-FM-Mu3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ueu-eK-zU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
