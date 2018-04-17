@@ -41,6 +41,7 @@ extension CGPoint {
     }
 }
 
+
 class GameScene: SKScene {
     //declare our player and use their image name to make the sprite
     let player = SKSpriteNode(imageNamed: "tank")
@@ -52,6 +53,10 @@ class GameScene: SKScene {
     //Start off facing the right. This depends on the player though.
     var movementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var facingAngle: CGFloat = 0
+    
+    //user count label
+    var countLabel: SKLabelNode!
+    
     
     
     override func didMove(to view: SKView) {
@@ -168,6 +173,7 @@ class GameScene: SKScene {
         if(isMoving) {
             self.player.position =  self.player.position + (movementDirection * moveSpeed)
         }
+
     }
     
     

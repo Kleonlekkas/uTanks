@@ -1,4 +1,4 @@
-//
+//Kyle Lekkas and Irvin Do
 //  MainMenuVCViewController.swift
 //  uTanks
 //
@@ -9,30 +9,28 @@
 import UIKit
 
 class MainMenuVCViewController: UIViewController {
-    
-      func viewDidappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        AppUtility.lockOrientation(.portrait)
-        print("view appeared")
-        //or to rotate and lock
-        //AppUtility.lockOrientation(.portrait, andRotateTo: .portait)
-    }
 
+    
+    //Queue button, when pressed initiates match making process
+    //pressing again removes player from queue
+    var isQueued: Bool = false
+    @IBOutlet weak var matchmakingLabel: UILabel!
+    @IBAction func queueButtonPressed(_ sender: Any) {
+        isQueued = !isQueued
+        if (isQueued) {
+            matchmakingLabel.text = "Waiting for players..."
+        } else {
+            matchmakingLabel.text = "   "
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
        print("view loaded")
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        //reset wen being removed
-        AppUtility.lockOrientation(.all)
-        
-        print("view disappeared")
-    }
+
     
 
     /*

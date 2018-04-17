@@ -18,49 +18,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fq5-Ry-LRQ">
+                                <rect key="frame" x="16" y="290.5" width="103" height="30"/>
+                                <state key="normal" title="Create A Room"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yld-AJ-FPN">
+                                <rect key="frame" x="164.5" y="584" width="46" height="30"/>
+                                <state key="normal" title="Queue"/>
+                                <connections>
+                                    <action selector="queueButtonPressed:" destination="0AT-Jk-nlc" eventType="touchUpInside" id="onp-E1-pwL"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="uTanks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYK-6l-t8x">
-                                <rect key="frame" x="141" y="65" width="93" height="39"/>
+                                <rect key="frame" x="141" y="52" width="93" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fq5-Ry-LRQ">
-                                <rect key="frame" x="16" y="290" width="103" height="30"/>
-                                <state key="normal" title="Create A Room"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ps-nV-tYR">
-                                <rect key="frame" x="273" y="290" width="86" height="30"/>
-                                <state key="normal" title="Join A Room"/>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bVB-wZ-iJZ">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k2U-Gg-5u4">
                                 <rect key="frame" x="16" y="328.5" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yld-AJ-FPN">
-                                <rect key="frame" x="164" y="549" width="46" height="30"/>
-                                <state key="normal" title="Queue"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ps-nV-tYR">
+                                <rect key="frame" x="273" y="290.5" width="86" height="30"/>
+                                <state key="normal" title="Join A Room"/>
+                                <connections>
+                                    <action selector="joinRoom:" destination="GBi-v5-Gt6" eventType="touchUpInside" id="vtz-l9-gwZ"/>
+                                    <segue destination="BV1-FR-VrT" kind="popoverPresentation" popoverAnchorView="8ps-nV-tYR" id="Mws-yL-0xJ">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BF7-UY-UAt">
+                                <rect key="frame" x="180.5" y="630" width="14" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bVB-wZ-iJZ" firstAttribute="top" secondItem="8ps-nV-tYR" secondAttribute="bottom" constant="50.5" id="0vQ-Er-UQj"/>
+                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="top" secondItem="Fq5-Ry-LRQ" secondAttribute="bottom" constant="8" id="2FL-lR-nqE"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="8ps-nV-tYR" secondAttribute="trailing" constant="16" id="6kI-FF-pE8"/>
-                            <constraint firstItem="LYK-6l-t8x" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="99w-SE-Kei"/>
-                            <constraint firstItem="uuL-ns-dPa" firstAttribute="bottom" secondItem="Yld-AJ-FPN" secondAttribute="bottom" constant="88" id="Bbj-8d-5Bi"/>
-                            <constraint firstItem="bVB-wZ-iJZ" firstAttribute="top" secondItem="Fq5-Ry-LRQ" secondAttribute="bottom" constant="50.5" id="H5c-V2-a6M"/>
-                            <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="bVB-wZ-iJZ" secondAttribute="trailing" constant="16" id="JJ9-BV-p32"/>
+                            <constraint firstItem="uuL-ns-dPa" firstAttribute="bottom" secondItem="BF7-UY-UAt" secondAttribute="bottom" constant="16" id="Dgj-H4-hte"/>
                             <constraint firstItem="Fq5-Ry-LRQ" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="K1q-W8-FHF"/>
-                            <constraint firstItem="bVB-wZ-iJZ" firstAttribute="centerY" secondItem="uuL-ns-dPa" secondAttribute="centerY" id="PgE-PS-XcL"/>
-                            <constraint firstItem="bVB-wZ-iJZ" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="UKl-PM-JMw"/>
-                            <constraint firstItem="LYK-6l-t8x" firstAttribute="top" secondItem="uuL-ns-dPa" secondAttribute="top" constant="45" id="orv-WZ-3ZO"/>
-                            <constraint firstItem="Yld-AJ-FPN" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="rAf-CH-1N2"/>
+                            <constraint firstItem="BF7-UY-UAt" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="MR1-na-Hkh"/>
+                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="VD2-av-Gjn"/>
+                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="centerY" secondItem="uuL-ns-dPa" secondAttribute="centerY" id="b6p-QJ-TUT"/>
+                            <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="k2U-Gg-5u4" secondAttribute="trailing" constant="16" id="dKl-0r-6th"/>
+                            <constraint firstItem="LYK-6l-t8x" firstAttribute="top" secondItem="uuL-ns-dPa" secondAttribute="top" constant="32" id="gwq-pW-cr7"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fq5-Ry-LRQ" secondAttribute="trailing" constant="20" symbolic="YES" id="jFj-Pb-5Va"/>
+                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="top" secondItem="8ps-nV-tYR" secondAttribute="bottom" constant="8" id="nMv-hp-gHQ"/>
+                            <constraint firstItem="8ps-nV-tYR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nh3-gi-G6M" secondAttribute="leading" constant="20" symbolic="YES" id="nOl-7B-HR2"/>
+                            <constraint firstItem="Yld-AJ-FPN" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="oli-6a-dTh"/>
+                            <constraint firstItem="BF7-UY-UAt" firstAttribute="top" secondItem="Yld-AJ-FPN" secondAttribute="bottom" constant="16" id="qrO-LX-Ww1"/>
+                            <constraint firstItem="LYK-6l-t8x" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="zzi-wO-XAy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uuL-ns-dPa"/>
                     </view>
+                    <connections>
+                        <outlet property="matchmakingLabel" destination="BF7-UY-UAt" id="7JZ-r0-Pw0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ueu-eK-zU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="GBi-v5-Gt6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-900" y="31.934032983508249"/>
         </scene>
