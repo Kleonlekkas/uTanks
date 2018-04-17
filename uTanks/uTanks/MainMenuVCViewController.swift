@@ -28,7 +28,7 @@ class MainMenuVCViewController: UIViewController {
         }
     }
     
-    let manager = SocketManager(socketURL: URL(string: "http://74.69.67.86:55555")!, config: [.log(true), .compress])
+    let manager = SocketManager(socketURL: URL(string: "https://utanks-server.herokuapp.com/")!, config: [.log(true), .compress])
     var socket: SocketIOClient!
     
     override func viewDidLoad() {
