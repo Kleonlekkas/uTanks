@@ -53,7 +53,7 @@ class PlayerModelSocket: PlayerModel {
         socket?.on("updatedMovement") { data, ack in
             //print(data)
             self.players[data[0] as! String] = ["x": data[1] as! CGFloat, "y": data[2] as! CGFloat, "directionX":data[3] as! CGFloat, "directionY": data[4] as! CGFloat]
-            print(self.players[data[0] as! String])
+            //print("Players data \(self.players[data[0] as! String])")
         }
         socket?.connect()
     }

@@ -43,8 +43,9 @@ import GameplayKit
 
 struct PhysicsCategory {
     static let none: UInt32 = 0
-    static let tank: UInt32 = 0b1
-    static let bullet: UInt32 = 0b10
+    static let player: UInt32 = 0b1
+    static let tank: UInt32 = 0b10
+    static let bullet: UInt32 = 0b100
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -82,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Actually make sprite render on the scene
         myTank.myObj.physicsBody = SKPhysicsBody(rectangleOf: myTank.myObj.size)
         myTank.myObj.physicsBody?.isDynamic = true
-        myTank.myObj.physicsBody?.categoryBitMask = PhysicsCategory.tank
+        myTank.myObj.physicsBody?.categoryBitMask = PhysicsCategory.player
         myTank.myObj.physicsBody?.contactTestBitMask = PhysicsCategory.bullet
         myTank.myObj.physicsBody?.collisionBitMask = PhysicsCategory.none
         addChild(myTank.myObj)
@@ -127,6 +128,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Randomization of player location goes here aka game over
         // Only move the player tank then call movement update similar to when player moves
+//        myTank.myObj.position.x = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.width
+//        myTank.myObj.position.y = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.height
+        
+        //Updates the target on users screen, but not the other user's screen
+//        player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
+    }
+    
+    func bulletDidCollideWithPlayer(projectile: SKSpriteNode, player: SKSpriteNode) {
+        print("Player is Hit. Also updating.")
+        projectile.removeFromParent()
+        
+        myTank.myObj.position.x = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.width
+        myTank.myObj.position.y = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.height
+        
+        playerIsMoved(x: myTank.myObj.position.x, y: myTank.myObj.position.y, directionX: myTank.preOffsetMovementDirection.x, directionY: myTank.preOffsetMovementDirection.y)
+        
+        self.player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
+    }
+    
+    func playerIsMoved(x: CGFloat, y: CGFloat, directionX: CGFloat, directionY: CGFloat) {
+        myTank.myObj.position.x = x
+        myTank.myObj.position.y = y
+        myTank.preOffsetMovementDirection.x = directionX
+        myTank.preOffsetMovementDirection.y = directionY
+        
     }
     
     // Make other player bullets
@@ -289,6 +315,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 tanks[i.key]?.myObj.position.y = playerData[i.key]!["y"]!
                 tanks[i.key]?.movementDirection.x = playerData[i.key]!["directionX"]!
                 tanks[i.key]?.movementDirection.y = playerData[i.key]!["directionY"]!
+            
                 
                 let x = tanks[i.key]?.movementDirection.x
                 let y = tanks[i.key]?.movementDirection.y
@@ -325,6 +352,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         if(myTank.isMoving) {
             myTank.myObj.position =  myTank.myObj.position + (myTank.movementDirection * myTank.moveSpeed)
+            //boundary checking
+            if myTank.myObj.position.x < 0 {
+                myTank.myObj.position.x = 0
+            }
+            if myTank.myObj.position.x > size.width {
+                myTank.myObj.position.x = size.width
+            }
+            if myTank.myObj.position.y < 0 {
+                myTank.myObj.position.y = 0
+            }
+            if myTank.myObj.position.y > size.height {
+                myTank.myObj.position.y = size.height
+            }
             player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
         }
 
@@ -345,6 +385,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let tank = firstBody.node as? SKSpriteNode,
                 let bullet = secondBody.node as? SKSpriteNode {
                 bulletDidCollideWithTank(projectile: bullet, tank: tank)
+            }
+        }
+        
+        if ((firstBody.categoryBitMask & PhysicsCategory.player != 0) && (secondBody.categoryBitMask & PhysicsCategory.bullet != 0)) {
+            if let playerTank = firstBody.node as? SKSpriteNode,
+                let bullet = secondBody.node as? SKSpriteNode {
+                bulletDidCollideWithPlayer(projectile: bullet, player: playerTank)
             }
         }
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0AT-Jk-nlc">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,35 +15,21 @@
             <objects>
                 <viewController id="0AT-Jk-nlc" customClass="MainMenuVCViewController" customModule="uTanks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nh3-gi-G6M">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fq5-Ry-LRQ">
-                                <rect key="frame" x="16" y="290.5" width="103" height="30"/>
-                                <state key="normal" title="Create A Room"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yld-AJ-FPN">
-                                <rect key="frame" x="164.5" y="584" width="46" height="30"/>
-                                <state key="normal" title="Queue"/>
-                                <connections>
-                                    <action selector="queueButtonPressed:" destination="0AT-Jk-nlc" eventType="touchUpInside" id="onp-E1-pwL"/>
-                                </connections>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainScreen" translatesAutoresizingMaskIntoConstraints="NO" id="0c6-Ow-O8l">
+                                <rect key="frame" x="-563" y="-939" width="1500" height="2700"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="uTanks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYK-6l-t8x">
-                                <rect key="frame" x="141" y="52" width="93" height="39"/>
+                                <rect key="frame" x="141" y="76" width="93" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k2U-Gg-5u4">
-                                <rect key="frame" x="16" y="328.5" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ps-nV-tYR">
-                                <rect key="frame" x="273" y="290.5" width="86" height="30"/>
-                                <state key="normal" title="Join A Room"/>
+                                <rect key="frame" x="172.66666666666666" y="679" width="30" height="30"/>
+                                <state key="normal" title="Join"/>
                                 <connections>
                                     <action selector="joinRoom:" destination="GBi-v5-Gt6" eventType="touchUpInside" id="vtz-l9-gwZ"/>
                                     <segue destination="BV1-FR-VrT" kind="popoverPresentation" popoverAnchorView="8ps-nV-tYR" id="Mws-yL-0xJ">
@@ -52,13 +38,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BF7-UY-UAt">
-                                <rect key="frame" x="180.5" y="630" width="14" height="21"/>
+                                <rect key="frame" x="180.66666666666666" y="741" width="14" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player Count: Unknown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4oL-aY-pe1">
-                                <rect key="frame" x="98" y="630" width="179" height="21"/>
+                                <rect key="frame" x="98" y="741" width="179" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -67,21 +53,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4oL-aY-pe1" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="98" id="0ID-gm-Qhx"/>
-                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="top" secondItem="Fq5-Ry-LRQ" secondAttribute="bottom" constant="8" id="2FL-lR-nqE"/>
-                            <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="8ps-nV-tYR" secondAttribute="trailing" constant="16" id="6kI-FF-pE8"/>
+                            <constraint firstItem="8ps-nV-tYR" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="Bh3-RX-MrU"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="bottom" secondItem="BF7-UY-UAt" secondAttribute="bottom" constant="16" id="Dgj-H4-hte"/>
-                            <constraint firstItem="Fq5-Ry-LRQ" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="K1q-W8-FHF"/>
                             <constraint firstItem="BF7-UY-UAt" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="MR1-na-Hkh"/>
-                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="leading" secondItem="uuL-ns-dPa" secondAttribute="leading" constant="16" id="VD2-av-Gjn"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="4oL-aY-pe1" secondAttribute="trailing" constant="98" id="YXh-eY-Ev9"/>
-                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="centerY" secondItem="uuL-ns-dPa" secondAttribute="centerY" id="b6p-QJ-TUT"/>
-                            <constraint firstItem="uuL-ns-dPa" firstAttribute="trailing" secondItem="k2U-Gg-5u4" secondAttribute="trailing" constant="16" id="dKl-0r-6th"/>
+                            <constraint firstItem="0c6-Ow-O8l" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="a3A-dM-HLZ"/>
                             <constraint firstItem="LYK-6l-t8x" firstAttribute="top" secondItem="uuL-ns-dPa" secondAttribute="top" constant="32" id="gwq-pW-cr7"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fq5-Ry-LRQ" secondAttribute="trailing" constant="20" symbolic="YES" id="jFj-Pb-5Va"/>
-                            <constraint firstItem="k2U-Gg-5u4" firstAttribute="top" secondItem="8ps-nV-tYR" secondAttribute="bottom" constant="8" id="nMv-hp-gHQ"/>
-                            <constraint firstItem="8ps-nV-tYR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nh3-gi-G6M" secondAttribute="leading" constant="20" symbolic="YES" id="nOl-7B-HR2"/>
-                            <constraint firstItem="Yld-AJ-FPN" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="oli-6a-dTh"/>
-                            <constraint firstItem="BF7-UY-UAt" firstAttribute="top" secondItem="Yld-AJ-FPN" secondAttribute="bottom" constant="16" id="qrO-LX-Ww1"/>
+                            <constraint firstItem="BF7-UY-UAt" firstAttribute="top" secondItem="8ps-nV-tYR" secondAttribute="bottom" constant="32" id="hpF-nK-TSv"/>
+                            <constraint firstItem="0c6-Ow-O8l" firstAttribute="centerY" secondItem="uuL-ns-dPa" secondAttribute="centerY" id="klE-ie-zw7"/>
                             <constraint firstItem="uuL-ns-dPa" firstAttribute="bottom" secondItem="4oL-aY-pe1" secondAttribute="bottom" constant="16" id="tvv-Vl-Yza"/>
                             <constraint firstItem="LYK-6l-t8x" firstAttribute="centerX" secondItem="uuL-ns-dPa" secondAttribute="centerX" id="zzi-wO-XAy"/>
                         </constraints>
@@ -95,14 +74,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ueu-eK-zU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="GBi-v5-Gt6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-900" y="31.934032983508249"/>
+            <point key="canvasLocation" x="-900" y="31.773399014778327"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="uTanks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
@@ -112,4 +91,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="mainScreen" width="1500" height="2700"/>
+    </resources>
 </document>
