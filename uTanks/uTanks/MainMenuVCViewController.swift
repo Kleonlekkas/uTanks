@@ -45,6 +45,7 @@ class MainMenuVCViewController: UIViewController {
         socket.on("recievePlayerCount") { data, ack in
             print("Players: \(data)")
             self.playerCountLabel.text = "Player Count: \(data[0])"
+        
         }
         
         socket.connect()

@@ -9,41 +9,42 @@
 import SpriteKit
 import GameplayKit
 
-//Overload operators to help with some vector math for bull calc
-func + (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x + right.x, y: left.y + right.y)
-}
-func - (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x - right.x, y: left.y - right.y)
-}
-
-func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
-    return CGPoint(x: point.x * scalar, y: point.y * scalar)
-}
-
-func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
-    return CGPoint(x: point.x / scalar, y: point.y / scalar)
-}
-
-#if !(arch(x86_64) || arch(arm64))
-    func sqrt(a: CGFloat) -> CGFloat {
-        return CGFloat(sqrtf(Float(a)))
-    }
-#endif
-
-extension CGPoint {
-    func length() -> CGFloat {
-        return sqrt(x*x + y*y)
-    }
-    
-    func normalized() -> CGPoint {
-        return self / length()
-    }
-}
+////Overload operators to help with some vector math for bull calc
+//func + (left: CGPoint, right: CGPoint) -> CGPoint {
+//    return CGPoint(x: left.x + right.x, y: left.y + right.y)
+//}
+//func - (left: CGPoint, right: CGPoint) -> CGPoint {
+//    return CGPoint(x: left.x - right.x, y: left.y - right.y)
+//}
+//
+//func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
+//    return CGPoint(x: point.x * scalar, y: point.y * scalar)
+//}
+//
+//func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
+//    return CGPoint(x: point.x / scalar, y: point.y / scalar)
+//}
+//
+//#if !(arch(x86_64) || arch(arm64))
+//    func sqrt(a: CGFloat) -> CGFloat {
+//        return CGFloat(sqrtf(Float(a)))
+//    }
+//#endif
+//
+//extension CGPoint {
+//    func length() -> CGFloat {
+//        return sqrt(x*x + y*y)
+//    }
+//
+//    func normalized() -> CGPoint {
+//        return self / length()
+//    }
+//}
 
 
 class GameScene: SKScene {
     //declare our player and use their image name to make the sprite
+    /*
     let player = SKSpriteNode(imageNamed: "tank")
     var isMoving: Bool = false
     var moveSpeed: CGFloat = 3
@@ -53,21 +54,49 @@ class GameScene: SKScene {
     //Start off facing the right. This depends on the player though.
     var movementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var facingAngle: CGFloat = 0
+    */
+    
     
     //user count label
     var countLabel: SKLabelNode!
     
+    //tank images: 0 - 3
+    let myTank = Tank(p_imgNum: 1)
+    
+    //on join, add the tank
     
     
     override func didMove(to view: SKView) {
         //redraw background
         backgroundColor = SKColor.white
         //Player is pretty big at the moment, scale him down 90%
-        player.setScale(CGFloat(0.1))
+        myTank.myObj.setScale(CGFloat(0.1))
         //Place player in top left corner
-        player.position = CGPoint(x: size.width * 0.10, y: size.height * 0.85)
+        setInitialPositionAndOrientation(tankObj: myTank)
         //Actually make sprite render on the scene
-        addChild(player)
+        addChild(myTank.myObj)
+    }
+    
+    func setInitialPositionAndOrientation(tankObj: Tank) {
+        //top right
+        if tankObj.imgNum == 1 {
+            tankObj.myObj.position =  CGPoint(x: size.width * 0.90, y: size.height * 0.85)
+            myTank.myObj.zRotation = 3.14
+            myTank.movementDirection = CGPoint(x: -1, y: 0)
+            myTank.facingAngle = 3.14
+        } else if tankObj.imgNum == 2 {
+            //bottom left
+            tankObj.myObj.position =  CGPoint(x: size.width * 0.10, y: size.height * 0.15)
+        } else if tankObj.imgNum == 3 {
+            //bottom right
+            tankObj.myObj.position =  CGPoint(x: size.width * 0.90, y: size.height * 0.15)
+            myTank.myObj.zRotation = 3.14
+            myTank.facingAngle = 3.14
+                        myTank.movementDirection = CGPoint(x: -1, y: 0)
+        } else {
+            //top left, default
+            tankObj.myObj.position =  CGPoint(x: size.width * 0.10, y: size.height * 0.85)
+        }
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -79,9 +108,9 @@ class GameScene: SKScene {
         
         // Move the tank
         if touchLocation.x < size.width * 0.50 {
-            isMoving = true
-            initalTouch = pos
-            movementDirection = CGPoint(x: 0, y: 0)
+            myTank.isMoving = true
+            myTank.initalTouch = pos
+            myTank.movementDirection = CGPoint(x: 0, y: 0)
         }
     }
     
@@ -91,20 +120,20 @@ class GameScene: SKScene {
         let touchLocation = pos
         
         if touchLocation.x < size.width * 0.50 {
-            let offset = touchLocation - initalTouch!
+            let offset = touchLocation - myTank.initalTouch!
             
-            let x = movementDirection.x
-            let y = movementDirection.y
+            let x = myTank.movementDirection.x
+            let y = myTank.movementDirection.y
             
-            facingAngle = acos(x / (sqrt((x * x) + (y * y))))
+            myTank.facingAngle = acos(x / (sqrt((x * x) + (y * y))))
             
             if y < 0 {
-                facingAngle = facingAngle * -1
+                myTank.facingAngle = myTank.facingAngle * -1
             }
             
-            movementDirection = offset.normalized()
+            myTank.movementDirection = offset.normalized()
             
-            self.player.zRotation = (facingAngle)
+            myTank.myObj.zRotation = (myTank.facingAngle)
         }
     }
     
@@ -116,20 +145,20 @@ class GameScene: SKScene {
         //If its on the right side of the screen, shoot a projectile.
         //if its on the left, move the tank
         
-        if touchLocation.x > size.width * 0.50  && canFire {
+        if touchLocation.x > size.width * 0.50  && myTank.canFire {
             //get initial location of projectile
             let projectile = SKSpriteNode(imageNamed: "bullet")
-            projectile.position = player.position
+            projectile.position = myTank.myObj.position
             projectile.setScale(CGFloat(0.1))
             
             
             //add the projectile to the scene
             addChild(projectile)
             
-            projectile.zRotation = (facingAngle)
+            projectile.zRotation = (myTank.facingAngle)
             
             //shoot until its definitely off screen
-            let amountShot = movementDirection * 1000
+            let amountShot = myTank.movementDirection * 1000
             
             //add the amount shot to the current position
             let trueDestination = amountShot + projectile.position
@@ -141,11 +170,11 @@ class GameScene: SKScene {
             // withTimeInterval is how often we want the players to shoot in seconds
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {
                 _ in
-                self.canFire = true
+                self.myTank.canFire = true
             } 
         } else {
             // Cancel movement
-            isMoving = false
+            myTank.isMoving = false
         }
         
 
@@ -170,8 +199,8 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if(isMoving) {
-            self.player.position =  self.player.position + (movementDirection * moveSpeed)
+        if(myTank.isMoving) {
+            myTank.myObj.position =  myTank.myObj.position + (myTank.movementDirection * myTank.moveSpeed)
         }
 
     }
