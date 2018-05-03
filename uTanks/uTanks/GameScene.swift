@@ -85,41 +85,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Run collision code here
     func bulletDidCollideWithTank(projectile: SKSpriteNode, tank: SKSpriteNode) {
-        print("Hit")
+        // Remove projectile from view
         projectile.removeFromParent()
-        
-        // Randomization of player location goes here aka game over
-        // Only move the player tank then call movement update similar to when player moves
-//        myTank.myObj.position.x = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.width
-//        myTank.myObj.position.y = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.height
-        
-        //Updates the target on users screen, but not the other user's screen
-//        player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
     }
     
+    // Player Collision is handled here
     func bulletDidCollideWithPlayer(projectile: SKSpriteNode, player: SKSpriteNode) {
-        print("Player is Hit. Also updating.")
+        // Remove projectile from view
         projectile.removeFromParent()
         
+        // Randomize where the player will move to
         let toMoveX = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.width
         let toMoveY = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.height
         
+        // Update location
         self.myTank.myObj.position.x = toMoveX
         self.myTank.myObj.position.y = toMoveY
         
         player.position.x = toMoveX
         player.position.y = toMoveY
         
-        playerIsMoved(x: toMoveX, y: toMoveY)
-        
+        // Send to server that the player was hit and where the player should move to
         self.player?.socket.emit("playerHit", ["x": toMoveX, "y": toMoveY])
         
+        // Send to server updated movement of the player
         self.player?.updateMovement(data: ["x":  toMoveX, "y":toMoveY, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
     }
     
-    func playerIsMoved(x: CGFloat, y: CGFloat) {
-        myTank.myObj.position =  myTank.myObj.position + (myTank.movementDirection * myTank.moveSpeed)
-    }
     
     // Make other player bullets
     func makeBullet(posistion: CGPoint, facingAngle: CGFloat, movementDir: CGPoint){
@@ -264,8 +256,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
+    // Update other player's locations.
     func updatePlayerLocation(playerData: [String: [String:CGFloat]]) {
         for i in playerData {
+            // If tank with hash is not found, make and initalize that tank.
             if tanks[i.key] === nil {
                tanks[i.key] = Tank(p_imgNum: 2)
                 
@@ -294,6 +288,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 tanks[i.key]?.myObj.zRotation = (tanks[i.key]?.facingAngle)!
             } else {
+                // Otherwise, update existing location
                 tanks[i.key]?.myObj.position.x = playerData[i.key]!["x"]!
                 tanks[i.key]?.myObj.position.y = playerData[i.key]!["y"]!
                 tanks[i.key]?.movementDirection.x = playerData[i.key]!["directionX"]!
@@ -335,6 +330,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // If two SKNodes are in contact with each other, check which two and run code depending on which bodies collided
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
