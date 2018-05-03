@@ -9,38 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-////Overload operators to help with some vector math for bull calc
-//func + (left: CGPoint, right: CGPoint) -> CGPoint {
-//    return CGPoint(x: left.x + right.x, y: left.y + right.y)
-//}
-//func - (left: CGPoint, right: CGPoint) -> CGPoint {
-//    return CGPoint(x: left.x - right.x, y: left.y - right.y)
-//}
-//
-//func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
-//    return CGPoint(x: point.x * scalar, y: point.y * scalar)
-//}
-//
-//func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
-//    return CGPoint(x: point.x / scalar, y: point.y / scalar)
-//}
-//
-//#if !(arch(x86_64) || arch(arm64))
-//    func sqrt(a: CGFloat) -> CGFloat {
-//        return CGFloat(sqrtf(Float(a)))
-//    }
-//#endif
-//
-//extension CGPoint {
-//    func length() -> CGFloat {
-//        return sqrt(x*x + y*y)
-//    }
-//
-//    func normalized() -> CGPoint {
-//        return self / length()
-//    }
-//}
-
 struct PhysicsCategory {
     static let none: UInt32 = 0
     static let player: UInt32 = 0b1
@@ -50,18 +18,7 @@ struct PhysicsCategory {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     //declare our player and use their image name to make the sprite
-    /*
-    let player = SKSpriteNode(imageNamed: "tank")
-    var isMoving: Bool = false
-    var moveSpeed: CGFloat = 3
-    var canFire: Bool = true
-    
-    var initalTouch: CGPoint?
-    //Start off facing the right. This depends on the player though.
-    var movementDirection: CGPoint = CGPoint(x: 1, y: 0)
-    var facingAngle: CGFloat = 0
-    */
-    
+
     var player: Player?
     
     //user count label
@@ -96,6 +53,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setSocketEvents() {
         player?.socket.on("recieveBullet") { data, ack in
             self.makeBullet(posistion: CGPoint.init(x: data[0] as! CGFloat, y: data[1] as! CGFloat), facingAngle: data[2] as! CGFloat, movementDir: CGPoint.init(x: data[3] as! CGFloat, y: data[4] as! CGFloat))
+        }
+        
+        player?.socket.on("movePlayer") {data, ack in
+            self.myTank.myObj.position.x = data[0] as! CGFloat
+            self.myTank.myObj.position.y = data[1] as! CGFloat
         }
     }
     
@@ -139,20 +101,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("Player is Hit. Also updating.")
         projectile.removeFromParent()
         
-        myTank.myObj.position.x = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.width
-        myTank.myObj.position.y = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.height
+        let toMoveX = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.width
+        let toMoveY = (CGFloat(Float(arc4random()) / Float(UINT32_MAX))) * size.height
         
-        playerIsMoved(x: myTank.myObj.position.x, y: myTank.myObj.position.y, directionX: myTank.preOffsetMovementDirection.x, directionY: myTank.preOffsetMovementDirection.y)
+        self.myTank.myObj.position.x = toMoveX
+        self.myTank.myObj.position.y = toMoveY
         
-        self.player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
+        player.position.x = toMoveX
+        player.position.y = toMoveY
+        
+        playerIsMoved(x: toMoveX, y: toMoveY)
+        
+        self.player?.socket.emit("playerHit", ["x": toMoveX, "y": toMoveY])
+        
+        self.player?.updateMovement(data: ["x":  toMoveX, "y":toMoveY, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
     }
     
-    func playerIsMoved(x: CGFloat, y: CGFloat, directionX: CGFloat, directionY: CGFloat) {
-        myTank.myObj.position.x = x
-        myTank.myObj.position.y = y
-        myTank.preOffsetMovementDirection.x = directionX
-        myTank.preOffsetMovementDirection.y = directionY
-        
+    func playerIsMoved(x: CGFloat, y: CGFloat) {
+        myTank.myObj.position =  myTank.myObj.position + (myTank.movementDirection * myTank.moveSpeed)
     }
     
     // Make other player bullets
@@ -367,7 +333,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
         }
-
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
