@@ -19,6 +19,8 @@
 		3F4D506F207C193000E28253 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4D506D207C193000E28253 /* LaunchScreen.storyboard */; };
 		3FEC393B209A889B007F4982 /* TankObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC393A209A889B007F4982 /* TankObject.swift */; };
 		3FEC393D209A9AA0007F4982 /* TankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC393C209A9AA0007F4982 /* TankManager.swift */; };
+		77B4DCF7209AC5D400E4E74C /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B4DCF6209AC5D400E4E74C /* Player.swift */; };
+		77B4DCF9209AC73D00E4E74C /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B4DCF8209AC73D00E4E74C /* PlayerModel.swift */; };
 		8A7C4CF274A7676AEC91C305 /* Pods_uTanks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F26AB90476AA7FD937F3B973 /* Pods_uTanks.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 		3FEC393A209A889B007F4982 /* TankObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankObject.swift; sourceTree = "<group>"; };
 		3FEC393C209A9AA0007F4982 /* TankManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankManager.swift; sourceTree = "<group>"; };
 		66A0055AC10CDC22E5BADC3E /* Pods-uTanks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uTanks.release.xcconfig"; path = "Pods/Target Support Files/Pods-uTanks/Pods-uTanks.release.xcconfig"; sourceTree = "<group>"; };
+		77B4DCF6209AC5D400E4E74C /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		77B4DCF8209AC73D00E4E74C /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		D34240B25504AA3EC82459CA /* Pods-uTanks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uTanks.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uTanks/Pods-uTanks.debug.xcconfig"; sourceTree = "<group>"; };
 		F26AB90476AA7FD937F3B973 /* Pods_uTanks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uTanks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -96,6 +100,8 @@
 				3F1C17B2208014B300FD3BDD /* MainMenuVCViewController.swift */,
 				3FEC393A209A889B007F4982 /* TankObject.swift */,
 				3FEC393C209A9AA0007F4982 /* TankManager.swift */,
+				77B4DCF6209AC5D400E4E74C /* Player.swift */,
+				77B4DCF8209AC73D00E4E74C /* PlayerModel.swift */,
 			);
 			path = uTanks;
 			sourceTree = "<group>";
@@ -237,7 +243,9 @@
 				3FEC393B209A889B007F4982 /* TankObject.swift in Sources */,
 				3F1C17B02080111000FD3BDD /* AppUtility.swift in Sources */,
 				3F1C17B3208014B300FD3BDD /* MainMenuVCViewController.swift in Sources */,
+				77B4DCF9209AC73D00E4E74C /* PlayerModel.swift in Sources */,
 				3F4D5065207C193000E28253 /* GameScene.swift in Sources */,
+				77B4DCF7209AC5D400E4E74C /* Player.swift in Sources */,
 				3F4D5067207C193000E28253 /* GameViewController.swift in Sources */,
 				3FEC393D209A9AA0007F4982 /* TankManager.swift in Sources */,
 				3F4D505F207C193000E28253 /* AppDelegate.swift in Sources */,

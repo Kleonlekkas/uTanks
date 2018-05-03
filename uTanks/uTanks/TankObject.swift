@@ -69,6 +69,7 @@ class Tank {
     
     var initalTouch: CGPoint?
     //Start off facing the right. This depends on the player though.
+    var preOffsetMovementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var movementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var facingAngle: CGFloat = 0
     //

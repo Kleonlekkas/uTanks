@@ -56,6 +56,7 @@ class GameScene: SKScene {
     var facingAngle: CGFloat = 0
     */
     
+    var player: Player?
     
     //user count label
     var countLabel: SKLabelNode!
@@ -64,7 +65,7 @@ class GameScene: SKScene {
     let myTank = Tank(p_imgNum: 1)
     
     //on join, add the tank
-    
+    var tanks: [String: Tank] = [:]
     
     override func didMove(to view: SKView) {
         //redraw background
@@ -75,6 +76,15 @@ class GameScene: SKScene {
         setInitialPositionAndOrientation(tankObj: myTank)
         //Actually make sprite render on the scene
         addChild(myTank.myObj)
+        
+        setSocketEvents()
+    }
+    
+    func setSocketEvents() {
+        player?.socket.on("recieveBullet") { data, ack in
+            print(data)
+            self.makeBullet(posistion: CGPoint.init(x: data[0] as! CGFloat, y: data[1] as! CGFloat), facingAngle: data[2] as! CGFloat, movementDir: CGPoint.init(x: data[3] as! CGFloat, y: data[4] as! CGFloat))
+        }
     }
     
     func setInitialPositionAndOrientation(tankObj: Tank) {
@@ -99,6 +109,29 @@ class GameScene: SKScene {
         }
     }
     
+    func makeBullet(posistion: CGPoint, facingAngle: CGFloat, movementDir: CGPoint){
+        let projectile = SKSpriteNode(imageNamed: "bullet")
+        projectile.position = posistion
+        projectile.setScale(CGFloat(0.1))
+        
+        
+        //add the projectile to the scene
+        addChild(projectile)
+        
+        projectile.zRotation = (facingAngle)
+        
+        //shoot until its definitely off screen
+        let amountShot = movementDir * 1000
+        
+        //add the amount shot to the current position
+        let trueDestination = amountShot + projectile.position
+        
+        //actually create the actions
+        let actionMove = SKAction.move(to: trueDestination, duration: 2.0)
+        let actionMoveDone = SKAction.removeFromParent()
+        projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
+    }
+    
     func touchDown(atPoint pos : CGPoint) {
         // Begin movement
         print("touched down")
@@ -110,6 +143,7 @@ class GameScene: SKScene {
         if touchLocation.x < size.width * 0.50 {
             myTank.isMoving = true
             myTank.initalTouch = pos
+            print(pos)
             myTank.movementDirection = CGPoint(x: 0, y: 0)
         }
     }
@@ -124,6 +158,9 @@ class GameScene: SKScene {
             
             let x = myTank.movementDirection.x
             let y = myTank.movementDirection.y
+            
+            myTank.preOffsetMovementDirection.x = x
+            myTank.preOffsetMovementDirection.y = y
             
             myTank.facingAngle = acos(x / (sqrt((x * x) + (y * y))))
             
@@ -171,7 +208,11 @@ class GameScene: SKScene {
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {
                 _ in
                 self.myTank.canFire = true
-            } 
+            }
+            
+            player?.socket.emit("makeBullet", ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "facingAngle": myTank.facingAngle, "directionX":myTank.movementDirection.x, "directionY":myTank.movementDirection.y])
+            
+            
         } else {
             // Cancel movement
             myTank.isMoving = false
@@ -196,16 +237,57 @@ class GameScene: SKScene {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
+    func updatePlayerLocation(playerData: [String: [String:CGFloat]]) {
+        for i in playerData {
+            if tanks[i.key] === nil {
+               tanks[i.key] = Tank(p_imgNum: 2)
+                addChild((tanks[i.key]?.myObj)!)
+                tanks[i.key]?.myObj.setScale(CGFloat(0.1))
+                tanks[i.key]?.myObj.position.x = playerData[i.key]!["x"]!
+                tanks[i.key]?.myObj.position.y = playerData[i.key]!["y"]!
+                tanks[i.key]?.movementDirection.x = playerData[i.key]!["directionX"]!
+                tanks[i.key]?.movementDirection.y = playerData[i.key]!["directionY"]!
+                
+                let x = tanks[i.key]?.movementDirection.x
+                let y = tanks[i.key]?.movementDirection.y
+                
+                tanks[i.key]?.facingAngle = acos(x! / (sqrt((x! * x!) + (y! * y!))))
+                
+                if Float(y!) < 0 {
+                    tanks[i.key]?.facingAngle = (tanks[i.key]?.facingAngle)! * -1
+                }
+                
+                tanks[i.key]?.myObj.zRotation = (tanks[i.key]?.facingAngle)!
+            } else {
+                tanks[i.key]?.myObj.position.x = playerData[i.key]!["x"]!
+                tanks[i.key]?.myObj.position.y = playerData[i.key]!["y"]!
+                tanks[i.key]?.movementDirection.x = playerData[i.key]!["directionX"]!
+                tanks[i.key]?.movementDirection.y = playerData[i.key]!["directionY"]!
+
+                let x = tanks[i.key]?.movementDirection.x
+                let y = tanks[i.key]?.movementDirection.y
+                
+                tanks[i.key]?.facingAngle = acos(x! / (sqrt((x! * x!) + (y! * y!))))
+                
+                if Float(y!) < 0 {
+                    tanks[i.key]?.facingAngle = (tanks[i.key]?.facingAngle)! * -1
+                }
+                
+                tanks[i.key]?.myObj.zRotation = (tanks[i.key]?.facingAngle)!
+            }
+        }
+    }
     
     override func update(_ currentTime: TimeInterval) {
+        updatePlayerLocation(playerData: (player?.getPlayerData())!)
         // Called before each frame is rendered
         if(myTank.isMoving) {
             myTank.myObj.position =  myTank.myObj.position + (myTank.movementDirection * myTank.moveSpeed)
+            player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
         }
 
     }
-    
-    
+
     
     
 }

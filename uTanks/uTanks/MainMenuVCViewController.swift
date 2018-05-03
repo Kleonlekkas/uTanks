@@ -13,6 +13,7 @@ import SocketIO
 
 class MainMenuVCViewController: UIViewController {
 
+    var player: Player!
     
     //Queue button, when pressed initiates match making process
     //pressing again removes player from queue
@@ -27,31 +28,35 @@ class MainMenuVCViewController: UIViewController {
             matchmakingLabel.text = "   "
         }
     }
-    
-    let manager = SocketManager(socketURL: URL(string: "https://utanks-server.herokuapp.com/")!, config: [.log(true), .compress])
-    var socket: SocketIOClient!
+    // https://utanks-server.herokuapp.com/
+//    let manager = SocketManager(socketURL: URL(string: "https://utanks-server.herokuapp.com/")!, config: [.log(true), .compress, .forceNew(true)])
+//    var socket: SocketIOClient!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
        print("view loaded")
         
-        socket = manager.defaultSocket
-        socket.on(clientEvent: .connect) { data, ack in
-            print("Socket connected")
-            self.socket.emit("getPlayerCount")
-        }
-        
-        socket.on("recievePlayerCount") { data, ack in
-            print("Players: \(data)")
-            self.playerCountLabel.text = "Player Count: \(data[0])"
-        
-        }
-        
-        socket.connect()
+//        socket = manager.defaultSocket
+//        socket.on(clientEvent: .connect) { data, ack in
+//            print("Socket connected")
+//            self.socket.emit("getPlayerCount")
+//        }
+//
+//        socket.on("recievePlayerCount") { data, ack in
+//            print("Players: \(data)")
+//            self.playerCountLabel.text = "Player Count: \(data[0])"
+//
+//        }
+//
+//        socket.connect()
     }
 
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let gameViewController = segue.destination as? GameViewController {
+            gameViewController.player = self.player
+        }
+    }
     
 
     /*
