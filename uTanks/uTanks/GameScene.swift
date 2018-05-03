@@ -165,7 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let touchLocation = pos
         
-        if touchLocation.x < size.width * 0.50 {
+        if touchLocation.x < size.width * 0.50 && myTank.isMoving{
             let offset = touchLocation - myTank.initalTouch!
             
             let x = myTank.movementDirection.x

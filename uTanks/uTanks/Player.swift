@@ -15,19 +15,17 @@ class Player {
     private var playerModel: PlayerModel
     var socket: SocketIOClient
     
+    // Initializer
     init(playerModel: PlayerModel = PlayerModelSocket()) {
         self.playerModel = playerModel
         self.socket = self.playerModel.socket!
     }
     
+    // Update player movement
     func updateMovement(data: [String: CGFloat]) {
         playerModel.updateMovement(data: data)
     }
-    
-    func updateBUllets(data: [String: CGFloat]) {
-        
-    }
-    
+    // Grabs other player's data
     func getPlayerData() -> [String: [String:CGFloat]] {
         return playerModel.players
     }

@@ -51,7 +51,7 @@ class MainMenuVCViewController: UIViewController {
 //
 //        socket.connect()
     }
-
+    // send player socket data to GameScene/GameViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let gameViewController = segue.destination as? GameViewController {
             gameViewController.player = self.player

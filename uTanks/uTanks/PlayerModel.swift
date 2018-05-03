@@ -15,17 +15,8 @@ protocol PlayerModel{
     var socket: SocketIOClient? { get set }
     var players: [String: [String:CGFloat]] { get set }
     var hash: String? { get set }
-    var room: Any? { get set}
-    var timer: Int? { get set }
     func setUser(data: [Any])
-    func update(data: [Any])
-    func errorEmitter(error: String)
-    func redraw()
     func updateMovement(data: [String: CGFloat])
-    func updateTime(time: Double, status: String)
-    func handleDisconnect()
-    func roomJoined(room: NSObject)
-    func forceMoveToLobby()
 }
 
 class PlayerModelSocket: PlayerModel {
@@ -37,15 +28,11 @@ class PlayerModelSocket: PlayerModel {
     
     var players: [String: [String:CGFloat]] = [:]
     
-    var room: Any?
-    
-    var timer: Int?
-    
     init() {
         socket = manager.defaultSocket
         socket?.on(clientEvent: .connect) { data, ack in
             print("Socket connected")
-            self.socket?.emit("getPlayerCount")
+            // self.socket?.emit("getPlayerCount")
         }
         socket?.on("joined") { data, ack in
             self.setUser(data: data)
@@ -58,41 +45,16 @@ class PlayerModelSocket: PlayerModel {
         socket?.connect()
     }
     
+    // Give user their hash
     func setUser(data: [Any]) {
-        hash = data[2] as! String
+        hash = data[2] as? String
     }
-    
-    func update(data: [Any]) {
 
-    }
-    
-    func errorEmitter(error: String) {
-
-    }
-    
+    // Send to server this player's movement data
     func updateMovement(data: [String: CGFloat]) {
         socket?.emit("movementUpdate", data)
     }
     
-    func redraw() {
-
-    }
-    
-    func updateTime(time: Double, status: String) {
-        
-    }
-    
-    func handleDisconnect() {
-        
-    }
-    
-    func roomJoined(room: NSObject) {
-        
-    }
-    
-    func forceMoveToLobby() {
-        
-    }
     
     
 }
