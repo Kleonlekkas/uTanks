@@ -41,8 +41,13 @@ import GameplayKit
 //    }
 //}
 
+struct PhysicsCategory {
+    static let none: UInt32 = 0
+    static let tank: UInt32 = 0b1
+    static let bullet: UInt32 = 0b10
+}
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     //declare our player and use their image name to make the sprite
     /*
     let player = SKSpriteNode(imageNamed: "tank")
@@ -75,14 +80,20 @@ class GameScene: SKScene {
         //Place player in top left corner
         setInitialPositionAndOrientation(tankObj: myTank)
         //Actually make sprite render on the scene
+        myTank.myObj.physicsBody = SKPhysicsBody(rectangleOf: myTank.myObj.size)
+        myTank.myObj.physicsBody?.isDynamic = true
+        myTank.myObj.physicsBody?.categoryBitMask = PhysicsCategory.tank
+        myTank.myObj.physicsBody?.contactTestBitMask = PhysicsCategory.bullet
+        myTank.myObj.physicsBody?.collisionBitMask = PhysicsCategory.none
         addChild(myTank.myObj)
-        
+        physicsWorld.gravity = .zero
+        physicsWorld.contactDelegate = self
+        // Setup socket events
         setSocketEvents()
     }
     
     func setSocketEvents() {
         player?.socket.on("recieveBullet") { data, ack in
-            print(data)
             self.makeBullet(posistion: CGPoint.init(x: data[0] as! CGFloat, y: data[1] as! CGFloat), facingAngle: data[2] as! CGFloat, movementDir: CGPoint.init(x: data[3] as! CGFloat, y: data[4] as! CGFloat))
         }
     }
@@ -109,11 +120,26 @@ class GameScene: SKScene {
         }
     }
     
+    // Run collision code here
+    func bulletDidCollideWithTank(projectile: SKSpriteNode, tank: SKSpriteNode) {
+        print("Hit")
+        projectile.removeFromParent()
+        
+        // Randomization of player location goes here aka game over
+        // Only move the player tank then call movement update similar to when player moves
+    }
+    
+    // Make other player bullets
     func makeBullet(posistion: CGPoint, facingAngle: CGFloat, movementDir: CGPoint){
         let projectile = SKSpriteNode(imageNamed: "bullet")
-        projectile.position = posistion
+        projectile.position = posistion // Add offset here so it's in front of the barrel
         projectile.setScale(CGFloat(0.1))
         
+        projectile.physicsBody = SKPhysicsBody(rectangleOf: projectile.size)
+        projectile.physicsBody?.isDynamic = true
+        projectile.physicsBody?.categoryBitMask = PhysicsCategory.bullet
+        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.tank
+        projectile.physicsBody?.collisionBitMask = PhysicsCategory.none
         
         //add the projectile to the scene
         addChild(projectile)
@@ -125,6 +151,8 @@ class GameScene: SKScene {
         
         //add the amount shot to the current position
         let trueDestination = amountShot + projectile.position
+        
+        projectile.position = projectile.position + (movementDir * 90)
         
         //actually create the actions
         let actionMove = SKAction.move(to: trueDestination, duration: 2.0)
@@ -185,9 +213,14 @@ class GameScene: SKScene {
         if touchLocation.x > size.width * 0.50  && myTank.canFire {
             //get initial location of projectile
             let projectile = SKSpriteNode(imageNamed: "bullet")
-            projectile.position = myTank.myObj.position
+            projectile.position = myTank.myObj.position // Add offset here so it's in front of the barrel
             projectile.setScale(CGFloat(0.1))
             
+            projectile.physicsBody = SKPhysicsBody(rectangleOf: projectile.size)
+            projectile.physicsBody?.isDynamic = true
+            projectile.physicsBody?.categoryBitMask = PhysicsCategory.bullet
+            projectile.physicsBody?.contactTestBitMask = PhysicsCategory.tank
+            projectile.physicsBody?.collisionBitMask = PhysicsCategory.none
             
             //add the projectile to the scene
             addChild(projectile)
@@ -199,6 +232,8 @@ class GameScene: SKScene {
             
             //add the amount shot to the current position
             let trueDestination = amountShot + projectile.position
+            
+            projectile.position = projectile.position + (myTank.movementDirection * 90)
             
             //actually create the actions
             let actionMove = SKAction.move(to: trueDestination, duration: 2.0)
@@ -241,6 +276,13 @@ class GameScene: SKScene {
         for i in playerData {
             if tanks[i.key] === nil {
                tanks[i.key] = Tank(p_imgNum: 2)
+                
+                tanks[i.key]?.myObj.physicsBody = SKPhysicsBody(rectangleOf: myTank.myObj.size)
+                tanks[i.key]?.myObj.physicsBody?.isDynamic = true
+                tanks[i.key]?.myObj.physicsBody?.categoryBitMask = PhysicsCategory.tank
+                tanks[i.key]?.myObj.physicsBody?.contactTestBitMask = PhysicsCategory.bullet
+                tanks[i.key]?.myObj.physicsBody?.collisionBitMask = PhysicsCategory.none
+                
                 addChild((tanks[i.key]?.myObj)!)
                 tanks[i.key]?.myObj.setScale(CGFloat(0.1))
                 tanks[i.key]?.myObj.position.x = playerData[i.key]!["x"]!
@@ -286,6 +328,25 @@ class GameScene: SKScene {
             player?.updateMovement(data: ["x":myTank.myObj.position.x, "y":myTank.myObj.position.y, "directionX":myTank.preOffsetMovementDirection.x, "directionY":myTank.preOffsetMovementDirection.y])
         }
 
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if ((firstBody.categoryBitMask & PhysicsCategory.tank != 0) && (secondBody.categoryBitMask & PhysicsCategory.bullet != 0)) {
+            if let tank = firstBody.node as? SKSpriteNode,
+                let bullet = secondBody.node as? SKSpriteNode {
+                bulletDidCollideWithTank(projectile: bullet, tank: tank)
+            }
+        }
     }
 
     
