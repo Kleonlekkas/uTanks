@@ -22,3 +22,10 @@ Multiplayer Online Tank Shooter
 
 ## Main Menu
 ![alt text](screenshots/mainMenuSS.png "Pic of Main Menu")
+
+
+## Shooting
+![alt text](screenshots/shoooting.png "Pic of shooting")
+
+## Relocation upon being shot
+![alt text](screenshots/shot.png "Pic of getting shot")
