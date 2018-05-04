@@ -21,6 +21,7 @@ Multiplayer Online Tank Shooter
 
 
 ## Main Menu
+![alt text](screenshots/mainMenuSSPortrait.png "Pic of Main Menu")
 ![alt text](screenshots/mainMenuSS.png "Pic of Main Menu")
 
 
