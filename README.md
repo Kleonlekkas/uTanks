@@ -17,3 +17,8 @@ Multiplayer Online Tank Shooter
 2. Move by pressing down and dragging on left side of the screen. 
 
 3. Fire by pressing down on the right side of screen.
+
+
+
+## Main Menu
+![alt text](screenshots/mainMenuSS.png "Pic of Main Menu")
