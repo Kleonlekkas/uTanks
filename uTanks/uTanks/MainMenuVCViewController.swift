@@ -29,27 +29,12 @@ class MainMenuVCViewController: UIViewController {
         }
     }
     // https://utanks-server.herokuapp.com/
-//    let manager = SocketManager(socketURL: URL(string: "https://utanks-server.herokuapp.com/")!, config: [.log(true), .compress, .forceNew(true)])
-//    var socket: SocketIOClient!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
        print("view loaded")
-        
-//        socket = manager.defaultSocket
-//        socket.on(clientEvent: .connect) { data, ack in
-//            print("Socket connected")
-//            self.socket.emit("getPlayerCount")
-//        }
-//
-//        socket.on("recievePlayerCount") { data, ack in
-//            print("Players: \(data)")
-//            self.playerCountLabel.text = "Player Count: \(data[0])"
-//
-//        }
-//
-//        socket.connect()
+
     }
     // send player socket data to GameScene/GameViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -57,16 +42,5 @@ class MainMenuVCViewController: UIViewController {
             gameViewController.player = self.player
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

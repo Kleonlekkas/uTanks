@@ -1,4 +1,4 @@
-//
+//Kyle Lekkas & Irvin Do
 //  PlayerModel.swift
 //  uTanks
 //
@@ -32,15 +32,13 @@ class PlayerModelSocket: PlayerModel {
         socket = manager.defaultSocket
         socket?.on(clientEvent: .connect) { data, ack in
             print("Socket connected")
-            // self.socket?.emit("getPlayerCount")
+            self.socket?.emit("getPlayerCount")
         }
         socket?.on("joined") { data, ack in
             self.setUser(data: data)
         }
         socket?.on("updatedMovement") { data, ack in
-            //print(data)
             self.players[data[0] as! String] = ["x": data[1] as! CGFloat, "y": data[2] as! CGFloat, "directionX":data[3] as! CGFloat, "directionY": data[4] as! CGFloat]
-            //print("Players data \(self.players[data[0] as! String])")
         }
         socket?.connect()
     }

@@ -1,4 +1,4 @@
-//
+//Kyle Lekkas & Irvin Do
 //  GameScene.swift
 //  uTanks
 //
@@ -25,7 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var countLabel: SKLabelNode!
     
     //tank images: 0 - 3
-    let myTank = Tank(p_imgNum: 1)
+    //so player count % 4 will create new tanks each time
+    let myTank = Tank(p_imgNum: 0)
     
     //on join, add the tank
     var tanks: [String: Tank] = [:]
@@ -59,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.myTank.myObj.position.x = data[0] as! CGFloat
             self.myTank.myObj.position.y = data[1] as! CGFloat
         }
+        //player?.socket.on(
     }
     
     func setInitialPositionAndOrientation(tankObj: Tank) {
@@ -261,8 +263,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in playerData {
             // If tank with hash is not found, make and initalize that tank.
             if tanks[i.key] === nil {
-               tanks[i.key] = Tank(p_imgNum: 2)
-                
+                //make new tank depending on amount of players
+               tanks[i.key] = Tank(p_imgNum: (playerData.count % 4))
+                setInitialPositionAndOrientation(tankObj: tanks[i.key]!)
                 tanks[i.key]?.myObj.physicsBody = SKPhysicsBody(rectangleOf: myTank.myObj.size)
                 tanks[i.key]?.myObj.physicsBody?.isDynamic = true
                 tanks[i.key]?.myObj.physicsBody?.categoryBitMask = PhysicsCategory.tank

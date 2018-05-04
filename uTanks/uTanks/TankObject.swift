@@ -1,4 +1,4 @@
-//
+//Kyle Lekkas & Irvin Do
 //  TankObject.swift
 //  uTanks
 //
@@ -72,7 +72,6 @@ class Tank {
     var preOffsetMovementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var movementDirection: CGPoint = CGPoint(x: 1, y: 0)
     var facingAngle: CGFloat = 0
-    //
 
     
     
